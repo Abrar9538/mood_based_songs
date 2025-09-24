@@ -7,3 +7,88 @@
     --inner-shadow: inset 3px 3px 3px #d0d0d0, inset -3px -3px 3px #f8f8f8;
     box-shadow: var(--inner-shadow);
 }
+
+/* Global */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.page-title {
+    font-family: 'Bigelow Rules', cursive;
+    font-size: 64px;
+    color: var(--accent-color);
+}
+
+.section-title {
+    font-family: 'Bigelow Rules', cursive;
+    color: var(--accent-color);
+}
+
+.video-frame {
+    padding: 10px;
+    max-width: 100%;
+    border-radius: 8px;
+    background: var(--card-bg);
+}
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+    .page-title {
+        font-size: 42px;
+    }
+}
+
+/* Theme variables */
+:root {
+    --bg-color: #eff0f4;
+    --text-color: #1b1f23;
+    --card-bg: #ffffff;
+    --accent-color: #0ccac4;
+    --muted-text: #6c757d;
+    --border-color: #dee2e6;
+}
+
+[data-theme="dark"] {
+    --bg-color: #0e1116;
+    --text-color: #e6edf3;
+    --card-bg: #161b22;
+    --accent-color: #0ccac4;
+    --muted-text: #9da7b1;
+    --border-color: #2e3440;
+}
+
+/* Card polish */
+.card {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.recommendations {
+    background: var(--card-bg);
+    border-radius: 8px;
+}
+
+/* Table enhancements */
+.recommendations-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--card-bg);
+}
+
+.recommendations-table {
+    color: var(--text-color);
+}
+
+.recommendations-table td, .recommendations-table th {
+    border-color: var(--border-color);
+}
+
+.text-muted { color: var(--muted-text) !important; }

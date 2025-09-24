@@ -36,7 +36,7 @@ emotion_model.load_weights('model.h5')
 cv2.ocl.setUseOpenCL(False)
 
 emotion_dict = {0:"Angry",1:"Disgusted",2:"Fearful",3:"Happy",4:"Neutral",5:"Sad",6:"Surprised"}
-music_dist={0:"songs/angry.csv",1:"songs/disgusted.csv ",2:"songs/fearful.csv",3:"songs/happy.csv",4:"songs/neutral.csv",5:"songs/sad.csv",6:"songs/surprised.csv"}
+music_dist={0:"songs/angry.csv",1:"songs/disgusted.csv",2:"songs/fearful.csv",3:"songs/happy.csv",4:"songs/neutral.csv",5:"songs/sad.csv",6:"songs/surprised.csv"}
 global last_frame1                                    
 last_frame1 = np.zeros((480, 640, 3), dtype=np.uint8)
 global cap1 
@@ -141,3 +141,38 @@ def music_rec():
 	df = df[['Name','Album','Artist']]
 	df = df.head(15)
 	return df
+
+def capture_once():
+	"""Capture a single frame from the default webcam, detect face/emotion,
+	update the global emotion state, and return a JPEG bytes snapshot,
+	corresponding recommendations dataframe, and detected emotion label."""
+	global show_text
+	# Open camera
+	cam = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+	grabbed, frame = cam.read()
+	# Ensure camera is released
+	cam.release()
+	if not grabbed:
+		# If capture fails, return last frame placeholder and current recs
+		jpeg = cv2.imencode('.jpg', last_frame1)[1]
+		return jpeg.tobytes(), music_rec(), emotion_dict.get(show_text[0], "")
+
+	# Process similar to get_frame
+	image = cv2.resize(frame, (600, 500))
+	gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+	face_rects = face_cascade.detectMultiScale(gray, 1.3, 5)
+	emotion_label = emotion_dict.get(show_text[0], "")
+	if len(face_rects) > 0:
+		(x, y, w, h) = face_rects[0]
+		roi_gray_frame = gray[y:y + h, x:x + w]
+		cropped_img = np.expand_dims(np.expand_dims(cv2.resize(roi_gray_frame, (48, 48)), -1), 0)
+		prediction = emotion_model.predict(cropped_img)
+		maxindex = int(np.argmax(prediction))
+		show_text[0] = maxindex
+		cv2.rectangle(image, (x, y-50), (x+w, y+h+10), (0,255,0), 2)
+		emotion_label = emotion_dict[maxindex]
+		cv2.putText(image, emotion_label, (x+20, y-60), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 255), 2, cv2.LINE_AA)
+
+	# Build jpeg and recommendations
+	ret, jpeg = cv2.imencode('.jpg', image)
+	return jpeg.tobytes(), music_rec(), emotion_label
