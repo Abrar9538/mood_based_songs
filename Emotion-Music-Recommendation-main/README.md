@@ -74,3 +74,5 @@ The app in current state can't be deployed on web as:
 Note: Model accuracy is not that great. It is ~66%. Further training and finetuning required. May try Vision Transformer Model.
 
 Update: 2025-09-24 20:18:12
+
+Update: 2025-09-24 20:22:27
