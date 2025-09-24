@@ -6,6 +6,7 @@
 .inner-shadow {
     --inner-shadow: inset 3px 3px 3px #d0d0d0, inset -3px -3px 3px #f8f8f8;
     box-shadow: var(--inner-shadow);
+<<<<<<< HEAD
 }
 
 /* Global */
@@ -92,3 +93,6 @@ body {
 }
 
 .text-muted { color: var(--muted-text) !important; }
+=======
+}
+>>>>>>> dbcd268a05f23f5b7287a735b6cde761a7ef8930

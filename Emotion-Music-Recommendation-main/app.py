@@ -1,4 +1,5 @@
 from flask import Flask, render_template, Response, jsonify
+<<<<<<< HEAD
 import base64
 import gunicorn
 from camera import *
@@ -6,6 +7,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+=======
+import gunicorn
+from camera import *
+>>>>>>> dbcd268a05f23f5b7287a735b6cde761a7ef8930
 
 app = Flask(__name__)
 
@@ -33,6 +38,7 @@ def video_feed():
 def gen_table():
     return df1.to_json(orient='records')
 
+<<<<<<< HEAD
 @app.route('/capture')
 def capture():
     global df1
@@ -45,6 +51,8 @@ def capture():
         'emotion': emotion
     })
 
+=======
+>>>>>>> dbcd268a05f23f5b7287a735b6cde761a7ef8930
 if __name__ == '__main__':
     app.debug = True
     app.run()
